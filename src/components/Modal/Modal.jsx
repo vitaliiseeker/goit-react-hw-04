@@ -1,46 +1,48 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Loader } from '../Loader/Loader';
 import { Overlay, ModalStyled } from "./Modal.styled";
 
-export class Modal extends Component {
-  closeByEsc = e => {
-    if (e.code === 'Escape') {
-      this.props.closeModal();
-    }
-  };
+export const Modal = ({ image: { src, alt }, closeModal }) => {
+  const [loaded, setLoaded] = useState(false);
 
-  closeByBackdrop = e => {
+  useEffect(() => {
+    const closeByEsc = e => {
+      if (e.code === 'Escape') {
+        closeModal();
+      }
+    };
+
+    window.addEventListener('keydown', closeByEsc);
+
+    return () => {
+      window.removeEventListener('keydown', closeByEsc);
+    }
+  }, [closeModal]);
+
+  const closeByBackdrop = e => {
     if (e.currentTarget === e.target) {
-      this.props.closeModal();
+      closeModal();
     }
   };
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.closeByEsc);
-    window.addEventListener('click', this.closeByBackdrop);
-  }
+  const loadHandler = () => {
+    setLoaded(true);
+  };
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.closeByEsc);
-    window.removeEventListener('click', this.closeByBackdrop);
-  }
-
-  render() {
-    const {
-      image: { src, alt }
-    } = this.props;
-
-    return (
-      <Overlay onClick={this.closeByBackdrop}>
-        <ModalStyled>
-          <img
-            src={src}
-            alt={alt}
-          />
-        </ModalStyled>
-      </Overlay>
-    );
-  }
+  return (
+    <Overlay onClick={closeByBackdrop}>
+      <ModalStyled>
+        <img
+          src={src}
+          alt={alt}
+          onLoad={loadHandler}
+          style={{ display: loaded ? "block" : "none" }}
+        />
+        {!loaded && <Loader />}
+      </ModalStyled>
+    </Overlay>
+  );
 }
 
 Modal.propTypes = {

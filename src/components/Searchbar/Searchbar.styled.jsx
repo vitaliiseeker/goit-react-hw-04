@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const SearchbarContainer = styled.header`
   position: sticky;
-  top: 0;
+  top: 85px;
   left: 0;
   z-index: 100;
 
@@ -26,7 +26,7 @@ export const SearchbarContainer = styled.header`
 export const SearchForm = styled.form`
   display: flex;
   align-items: center;
-  max-width: 600px;
+  max-width: 800px;
   background-color: #fff;
   border-radius: 3px;
   overflow: hidden;
@@ -63,7 +63,8 @@ export const SearchFormInput = styled.input`
   display: inline-block;
   width: 100%;
   font: inherit;
-  font-size: 20px;
+  font-size: 18px;
+  
   border: none;
   outline: none;
   padding-left: 4px;

@@ -1,4 +1,5 @@
-import { Component } from "react";
+import { useState, useEffect } from "react";
+import { Menu } from './Menu/Menu';
 import { fetchApi } from "./utils/api";
 import { mapper } from './utils/mapper';
 import { Container } from "./Container/Container";
@@ -10,103 +11,120 @@ import { Loader } from './Loader/Loader';
 import { Notification } from './Notification/Notification';
 import { Modal } from './Modal/Modal';
 
-export class App extends Component {
-  state = {
-    search: "",
-    images: [],
-    currentImage: null,
-    page: 1,
-    perPage: 12,
-    maxPage: null,
-    isLoading: false,
-    error: null,
+export const App = () => {
+
+  const [currentMenu, setCurrentMenu] = useState("");
+  const [search, setSearch] = useState("");
+  const [images, setImages] = useState([]);
+  const [currentImage, setCurrentImage] = useState(null);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(12);
+  const [maxPage, setMaxPage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const mainMenu = "Goit-react-hw-04";
+  const subMenu = ["Feedback", "Phonebook", "Images"];
+
+  const onClickMenu = async (e) => {
+    const a = await e.target.textContent;
+    setCurrentMenu(a);
   }
 
-  componentDidUpdate(_, prevState) {
-    const { page, search } = this.state;
-    if (prevState.page !== page || prevState.search !== search) {
-      this.fetchGallery();
+  useEffect(() => {
+    if (search) {
+      fetchGallery();
     }
     window.scrollBy({
       top: 400,
       behavior: "smooth",
     });
-  }
+  }, [search, page]);
 
-  fetchGallery = async () => {
-    const { search, page, perPage } = this.state;
+  const fetchGallery = async () => {
     try {
-      this.setState({ isLoading: true });
+      setIsLoading(true);
       const response = await fetchApi(search, page, perPage);
 
-      if (!response.hits.length) this.setState({ error: "Sorry, there are no images matching your search query. Please try again" });
-      this.setState(prevState => (
-        {
-          images: [...prevState.images, ...mapper(response.hits)],
-          maxPage: Math.ceil(response.totalHits / perPage)
-        }))
+      if (!response.hits.length) {
+        setError("Sorry, there are no images matching your search query. Please try again");
+      }
+      setImages((prevImages) => [...prevImages, ...mapper(response.hits)]);
+      setMaxPage(Math.ceil(response.totalHits / perPage));
     } catch (error) {
-      this.setState({ error: "Error" })
+      setError("Error");
     } finally {
-      this.setState({ isLoading: false });
+      setIsLoading(false);
     }
   }
 
-  onSearch = e => {
+  const onSearch = e => {
     e.preventDefault();
     const searchQuery = e.target.input.value.trim();
-    if (!searchQuery) return this.setState({ error: "Enter data in the search field" });
-    if (this.state.search !== searchQuery) {
-      this.setState({ search: searchQuery, page: 1, maxPage: null, images: [], error: null });
+    if (!searchQuery) {
+      setImages([]);
+      setError("Enter data in the search field");
+      return;
     }
+    if (search !== searchQuery) {
+      setSearch(searchQuery);
+      setImages([]);
+      setPage(1);
+      setMaxPage(null);
+      setError(null);
+    };
   }
 
-  LoadMore = () => {
-    this.setState(prevState => ({ page: prevState.page + 1 }))
+  const LoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
   }
 
-  openModal = data => {
-    this.setState({ currentImage: data })
+  const openModal = data => {
+    setCurrentImage(data);
   }
 
-  closeModal = () => {
-    this.setState({ currentImage: null })
+  const closeModal = () => {
+    setCurrentImage(null);
   }
 
-  render() {
-    const { images, currentImage, page, maxPage, isLoading, error } = this.state;
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        gridGap: '16px',
+        paddingBottom: '24px',
+      }} >
 
-    return (
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr',
-          gridGap: '16px',
-          paddingBottom: '24px',
-        }} >
+      <Container>
+        <Menu
+          mainMenu={mainMenu}
+          subMenu={subMenu}
+          onClickMenu={onClickMenu}
+        />
+        {/* // =========================== I M A G E ================== */}
+        <Searchbar onSubmit={onSearch} />
 
-        <Container>
+        <ImageGallery>
+          <ImageGalleryItem
+            images={images}
+            openModal={openModal}
+          />
+        </ImageGallery>
+        {isLoading && <Loader />}
 
-          <Searchbar onSubmit={this.onSearch} />
+        {!isLoading && !error && (images.length > 0) && page < maxPage &&
+          <Button
+            type="button"
+            onClick={LoadMore} >
+            Load more
+          </Button>}
 
-          <ImageGallery>
-            <ImageGalleryItem
-              images={images}
-              openModal={this.openModal} />
-          </ImageGallery>
-          {isLoading && <Loader />}
+        {error && <Notification message={error} />}
+        {currentImage && <Modal image={currentImage} closeModal={closeModal} />}
+        {/* // =========================== I M A G E =================== */}
+      </Container>
+    </div>
 
-          {!isLoading && !error && (images.length > 0) && page < maxPage &&
-            <Button
-              type="button"
-              onClick={this.LoadMore} >
-              Load more
-            </Button>}
-
-          {error && <Notification message={error} />}
-          {currentImage && <Modal image={currentImage} closeModal={this.closeModal} />}
-        </Container>
-      </div>
-    );
-  }
+  );
 }

@@ -15,7 +15,7 @@ export const fetchApi = async (query, page, perPage) => {
       page: page,
     }
   });
-  return await response.data;
+  return response.data;
 }
 
 fetchApi.propTypes = {
