@@ -15,7 +15,7 @@ export const ImagesPage = () => {
   const [images, setImages] = useState([]);
   const [currentImage, setCurrentImage] = useState(null);
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(12);
+  const [perPage] = useState(12);
   const [maxPage, setMaxPage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -28,6 +28,7 @@ export const ImagesPage = () => {
       top: 400,
       behavior: "smooth",
     });
+    // eslint-disable-next-line 
   }, [search, page]);
 
   const fetchGallery = async () => {
