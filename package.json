@@ -1,8 +1,8 @@
 {
-  "name": "goit-react-hw-04-images",
+  "name": "goit-react-hw-04",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://vitaliiseeker.github.io/goit-react-hw-04-images",
+  "homepage": "https://vitaliiseeker.github.io/goit-react-hw-04",
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@testing-library/jest-dom": "^5.16.5",

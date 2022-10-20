@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { fetchApi } from "components/utils/api.js";
-import { mapper } from 'components/utils/mapper';
-import { Searchbar } from "components/Searchbar/Searchbar";
-import { ImageGallery } from "components/ImageGallery/ImageGallery";
-import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
-import { BtnLoader } from 'components/Button/Button.styled';
-import { Loader } from 'components/Loader/Loader';
-import { Notification } from 'components/Notification/Notification';
-import { Modal } from 'components/Modal/Modal';
+import { fetchApi } from "../../components/utils/api.js";
+import { mapper } from '../../components/utils/mapper';
+import { Searchbar } from "../../components/Searchbar/Searchbar";
+import { ImageGallery } from "../../components/ImageGallery/ImageGallery";
+import { ImageGalleryItem } from "../../components/ImageGalleryItem/ImageGalleryItem";
+import { BtnLoader } from '../../components/Button/Button.styled';
+import { Loader } from '../../components/Loader/Loader';
+import { Notification } from '../../components/Notification/Notification';
+import { Modal } from '../../components/Modal/Modal';
 
 export const ImagesPage = () => {
 

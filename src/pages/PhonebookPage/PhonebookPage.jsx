@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { Container } from "components/Container/Container";
-import { ContactForm } from "components/ContactForm/ContactForm";
-import { ContactList } from "components/ContactList/ContactList";
-import { TotalNumberContacts } from "components/TotalNumberContacts/TotalNumberContacts";
-import { Filter } from "components/Filter/Filter";
+import { Container } from "../../components/Container/Container";
+import { ContactForm } from "../../components/ContactForm/ContactForm";
+import { ContactList } from "../../components/ContactList/ContactList";
+import { TotalNumberContacts } from "../../components/TotalNumberContacts/TotalNumberContacts";
+import { Filter } from "../../components/Filter/Filter";
 
 export const PhonebookPage = () => {
 
