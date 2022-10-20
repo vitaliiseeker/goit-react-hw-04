@@ -1,6 +1,36 @@
 import styled from 'styled-components';
 
-export const Btn = styled.button` 
+export const Btn = styled.button`
+
+    padding: 4px 8px;
+    max-width: 200px;
+
+    font-size: 14px;
+    color: #000080;
+
+    border: 1px solid #c0c0c0;
+    border-radius: 4px;
+
+    box-shadow: 0px 2px 4px #808080;
+    outline: none;
+    cursor: pointer;
+
+    transition: background-color var(--animation);
+
+    &:hover {
+        background-color: #ea7e26;
+    }
+
+    @media screen and (max-width: 400px) {
+        display: block;
+    }
+
+    @media screen and (min-width: (400px + 0.02)) {
+        display: inline-block;
+    }
+`;
+
+export const BtnLoader = styled.button` 
 display: block;
 min-width: 180px;
 margin: 0 auto;

@@ -73,3 +73,12 @@ html {
   clip: rect(0 0 0 0);
   overflow: hidden;
 }
+
+ul>.current-menu {
+  color: #ffff00;
+  background-color: #303f9f;
+  box-shadow: 0 2px 3px 2px #030c47,
+    0 -2px 3px 2px #030c47,
+    -2px 0 3px 2px #030c47,
+    2px 0 3px 2px #030c47;
+}

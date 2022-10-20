@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 
 export const Text = styled.p`
-font-size: 24px;
-font-weight: 500;
+font-size: 28px;
 font-style: italic;
-color: red;
-text-align: center;
+color: #8000ff;
 `;
