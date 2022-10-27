@@ -23,7 +23,6 @@ export const PhonebookPage = () => {
       return;
     }
     setContacts([data, ...contacts]);
-    console.log(contacts);
   };
 
   const changeFilter = e => setFilter(e.currentTarget.value);
